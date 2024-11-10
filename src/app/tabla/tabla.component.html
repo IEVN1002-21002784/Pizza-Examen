@@ -1,0 +1,57 @@
+<div class="relative overflow-x-auto">
+    <h1 class="text-center text-2xl">Resumen de Pedido</h1>
+    <form *ngIf="pedidosInfo.length" [formGroup]="formularioPedido" (ngSubmit)="eliminarPedido()">
+      <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr>
+            <th scope="col" class="px-6 py-3">Seleccionar</th>
+            <th scope="col" class="px-6 py-3">Tamaño</th>
+            <th scope="col" class="px-6 py-3">Ingredientes</th>
+            <th scope="col" class="px-6 py-3">Cantidad</th>
+            <th scope="col" class="px-6 py-3">Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let pedido of pedidosInfo; let i = index" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-solid">
+            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              <input type="radio" formControlName="pedidoId" name="pedidoId" [value]="pedido.pedidoId">
+            </td>
+            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              {{ pedido.tamano }}
+            </td>
+            <td class="px-6 py-4">
+              {{ pedido.ingredientes.join(', ') }}
+            </td>
+            <td class="px-6 py-4">
+              {{ pedido.cantidad }}
+            </td>
+            <td class="px-6 py-4">
+              {{ pedido.subtotal }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="flex flex-row justify-between space-x-4">
+        <div>
+          <button type="submit" class="px-4 py-2 mt-4 text-white bg-red-500 rounded-md">Eliminar</button>
+        </div>
+        <div>
+          <button type="button" class="px-4 py-2 mt-4 text-white bg-green-500 rounded-md" (click)="agregarPedido()">Terminar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div id="popup-modal" tabindex="-1" class="overflow-y-auto overflow-x-hidden fixed inset-0 z-50 justify-center top-10 w-full h-full" ngClass="{{visibilidadModal}}">
+    <div class="relative p-4 w-full max-w-md max-h-full">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" (click)="cerrarModal()">
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                </svg>
+                <span class="sr-only">Cerrar</span>
+            </button>
+            <div class="p-4 md:p-5 text-center">
+              <i class="bi bi-check-circle text-6xl text-white"></i>
+                <h3 class="mb-5 text-lg font-normal text-gray-200 dark:text-gray-400">¿Quieres terminar la compra?</h3>
+                <button (click)="confirmarPedido()" type="button" class="text-white bg-green-500 hover:bg-green-800 focus:ring-4 
+  
